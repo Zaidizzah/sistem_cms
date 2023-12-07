@@ -1,0 +1,84 @@
+        // const quoteTextbaru = $("#quoteText");
+        // const authorText = $("#authorText");
+        // const copyButton = $("#copyButton");
+        // const speechButton = $("#speechButton");
+
+        // // Fungsi untuk mengambil kutipan dari API
+        // function getIndonesianQuote() {
+        //     $.ajax({
+        //         url: '<?= base_url('assets/proxy.php') ?>', // Mengarahkan ke server proxy
+        //         type: 'GET',
+        //         dataType: 'json',
+        //         success: function (data) {
+        //             var quote = data.contents.quotes[0].quote;
+        //             var author = data.contents.quotes[0].author;
+
+        //             // Menampilkan kutipan dan penulisnya
+        //             quoteText.text(quote);
+        //             authorText.text("- " + author);
+
+        //         },
+        //         error: function (error) {
+        //             // Handle kesalahan jika ada
+        //             console.log("Terjadi kesalahan: " + error.responseText);
+        //         }
+        //     });
+        // }
+        
+        // // copyButton.on("click", function () {
+        // //     const textArea = document.createElement("textarea");
+        // //     textArea.value = quote;
+        // //     document.body.appendChild(textArea);
+        // //     textArea.select();
+        // //     document.execCommand("copy");
+        // //     document.body.removeChild(textArea);
+        // // });
+
+        // // // Membaca kutipan menggunakan text-to-speech saat tombol "Dengarkan" ditekan
+        // // speechButton.on("click", function () {
+        // //     const speech = new SpeechSynthesisUtterance(quote);
+        // //     window.speechSynthesis.speak(speech);
+        // // });
+
+        // getIndonesianQuote();
+        // $("#getQuote").click(function() {
+        //     getIndonesianQuote();
+        // });
+
+        public function translate() {
+                // ambil data dari post
+                $request = json_decode(file_get_contents('php://input'));
+                $textToTranslate = $request->text;
+                $targetLanguage = $request->target;
+
+                $config = [
+                'key' => 'AIzaSyD5ghYkV6mojD3auIA9FKaN6YNaxrNG49E'
+                ];
+
+                $this->load->library('google_translation', $config);
+
+                $translatedText = $this->google_translation->translate($textToTranslate, $targetLanguage);
+
+                $response = [
+                'text' => $translatedText
+                ];
+                $this->output->set_content_type('application/json')->set_output(json_encode($response));
+        }
+
+        const textToTranslate = result.content;
+                        const targetLanguage = "id"; 
+                        
+                        fetch("<?=base_url('frontend/beranda_konten')?>/translate", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({ text: textToTranslate, target: targetLanguage })
+                        })
+                        .then(response => response.json())
+                        .then(translation => {
+                            quoteText.innerText = translation.text;
+                            authorName.innerText = result.author;
+                            quoteBtn.classList.remove("loading");
+                            quoteBtn.innerText = "New Quote";
+                        });

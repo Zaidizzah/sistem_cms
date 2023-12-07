@@ -1,0 +1,21 @@
+{
+	"CodeGPT.apiKey": "OpenAI",
+	"editor.formatOnSave": false,
+	"vs-code-prettier-eslint.prettierLast": true,
+	"sqltools.connections": [
+		{
+			"mysqlOptions": {
+				"authProtocol": "default",
+				"enableSsl": "Disabled"
+			},
+			"previewLimit": 50,
+			"server": "localhost",
+			"port": 3306,
+			"driver": "MySQL",
+			"name": "Mysql",
+			"username": "root",
+			"database": "cms_sistem",
+			"password": ""
+		}
+	]
+}
